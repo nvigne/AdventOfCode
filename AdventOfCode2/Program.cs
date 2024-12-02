@@ -1,32 +1,27 @@
 ﻿using StreamReader reader = new StreamReader("input.txt");
 
-List<List<int>> levels = new();
+List<List<int>> reports = new();
 string? line;
 while ((line = reader.ReadLine()) is not null)
 {
     var numbersAsString = line.Split(" ");
-    var level = new List<int>();
+    var levels = new List<int>();
     foreach (var numberAsString in numbersAsString)
     {
-        var number = int.Parse(numberAsString);
-        level.Add(number);
+        var level = int.Parse(numberAsString);
+        levels.Add(level);
     }
-    levels.Add(level);
+    reports.Add(levels);
 }
 
-static bool IsSafe(List<int> level)
+static bool IsSafePart1(List<int> level)
 {
     // a level is considered safe if all the values are increasing or decreasing and if two adjacent values differs by at least one or at max three.
     // First let's try to know if we decrease or increase.
     var firstDiff = level[0] - level[1];
-    if (firstDiff == 0 || Math.Abs(firstDiff) > 3)
-    {
-        return false;
-    }
-
     var isIncreasing = firstDiff < 0;
 
-    for (int i = 1; i < level.Count - 1; i++)
+    for (int i = 0; i < level.Count - 1; i++)
     {
         // Let's calculate if we decrease or increase
         var diff = level[i] - level[i + 1];
@@ -53,11 +48,25 @@ static bool IsSafe(List<int> level)
 }
 
 int totalSafe = 0;
-foreach (var level in levels)
+foreach (var level in reports)
 {
-    if (IsSafe(level))
+    if (IsSafePart1(level))
     {
         totalSafe++;
+    }
+    else
+    {
+        // if not safe with first logic, let's try the second logic to remove one level per report
+        for (int i = 0; i < level.Count; i++)
+        {
+            var newLevel = new List<int>(level);
+            newLevel.RemoveAt(i);
+            if (IsSafePart1(newLevel))
+            {
+                totalSafe++;
+                break;
+            }
+        }
     }
 }
 
