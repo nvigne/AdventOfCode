@@ -1,6 +1,6 @@
-﻿using StreamReader reader = new StreamReader("input.txt");
+﻿Tuple<List<int>, List<int>> GetColumns() {
+    using StreamReader reader = new StreamReader("input.txt");
 
-Tuple<List<int>, List<int>> GetColumns() {
     List<int> column1 = new List<int>();
     List<int> column2 = new List<int>();
     string? line;
