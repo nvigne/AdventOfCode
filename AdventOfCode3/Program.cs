@@ -2,6 +2,7 @@
 
 int c;
 int total = 0;
+var dont = false;
 while ((c = reader.Read()) != -1)
 {
     var character = (char)c;
@@ -55,7 +56,46 @@ while ((c = reader.Read()) != -1)
                     }
                     else
                     {
-                        total += number1 * number2;
+                        if (!dont)
+                        {
+                            total += number1 * number2;
+                        }
+                    }
+                }
+            }
+        }
+    }
+    else if (character == 'd')
+    {
+        character = (char)reader.Read();
+        if (character == 'o')
+        {
+            character = (char)reader.Read();
+            if (character == '(')
+            {
+                character = (char)reader.Read();
+                if (character == ')')
+                {
+                    dont = false;
+                }
+            }
+            else if (character == 'n')
+            {
+                character = (char)reader.Read();
+                if (character == '\'')
+                {
+                    character = (char)reader.Read();
+                    if (character == 't')
+                    {
+                        character = (char)reader.Read();
+                        if (character == '(')
+                        {
+                            character = (char)reader.Read();
+                            if (character == ')')
+                            {
+                                dont = true;
+                            }
+                        }
                     }
                 }
             }
