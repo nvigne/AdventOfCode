@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode2", "AdventOfCo
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode3", "AdventOfCode3\AdventOfCode3.csproj", "{036D2B33-2174-4C5C-BC4C-58F814356ED1}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AdventOfCode4", "AdventOfCode4\AdventOfCode4.csproj", "{4CEC994B-A209-4D11-9FE6-CF01B8E831F3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{036D2B33-2174-4C5C-BC4C-58F814356ED1}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{036D2B33-2174-4C5C-BC4C-58F814356ED1}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{036D2B33-2174-4C5C-BC4C-58F814356ED1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{4CEC994B-A209-4D11-9FE6-CF01B8E831F3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{4CEC994B-A209-4D11-9FE6-CF01B8E831F3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{4CEC994B-A209-4D11-9FE6-CF01B8E831F3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{4CEC994B-A209-4D11-9FE6-CF01B8E831F3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
