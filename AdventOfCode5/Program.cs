@@ -78,19 +78,15 @@ foreach (var item in sections)
                     {
                         Console.WriteLine($"Rule not validated for {item[i]} and {item[j]}");
                         isValidSection = false;
-                        break;
+                        // What we want is each time we don't validate a rule, we invert the two numbers.
+                        item.Swap(i, j);
                     }
                 }
             }
         }
-
-        if (!isValidSection)
-        {
-            break;
-        }
     }
 
-    if (isValidSection)
+    if (!isValidSection)
     {
         sumMiddle += GetMiddleNumber(item);
     }
@@ -104,3 +100,4 @@ static int GetMiddleNumber(List<int> numbers)
 {
     return numbers[numbers.Count / 2];
 }
+
