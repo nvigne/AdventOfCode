@@ -9,10 +9,14 @@
     {
         public Position Position = position;
         public Direction Direction = direction;
+        private HashSet<Tuple<Position, Direction>> _visited = new() { new(position, direction) };
+        private HashSet<Position> _visitedOnlyPosition = new() { position };
 
-        HashSet<Position> _visited = new() { position };
+        // Indicates if we already visited one of the position, i.e we are in a loop.
+        public bool LoopDetected = false;
 
-        public int Visited => _visited.Count;
+
+        public int Visited => _visitedOnlyPosition.Count;
 
         public Position Move()
         {
@@ -32,7 +36,8 @@
                     break;
             }
 
-            _visited.Add(Position);
+            LoopDetected =  !_visited.Add(new(Position, Direction));
+            _visitedOnlyPosition.Add(Position);
 
             return Position;
         }
