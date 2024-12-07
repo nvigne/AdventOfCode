@@ -85,7 +85,7 @@ for (int i = 0; i < lineNumber; i++)
     {
         var copyMap = table.Clone() as char[,];
         copyMap[i, j] = '#';
-        var copyGuard = new Guard(guardPosition, Direction.Up);
+        var copyGuard = guard.Clone();
 
         if (!ProcessMap(copyMap, copyGuard))
         {

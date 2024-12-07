@@ -9,12 +9,15 @@
     {
         public Position Position = position;
         public Direction Direction = direction;
+
+        private Position initialPosition = position;
+        private Direction initialDirection = direction;
+
         private HashSet<Tuple<Position, Direction>> _visited = new() { new(position, direction) };
         private HashSet<Position> _visitedOnlyPosition = new() { position };
 
         // Indicates if we already visited one of the position, i.e we are in a loop.
         public bool LoopDetected = false;
-
 
         public int Visited => _visitedOnlyPosition.Count;
 
@@ -78,6 +81,11 @@
                     Direction = Direction.Down;
                     break;
             }
+        }
+
+        public Guard Clone()
+        {
+            return new Guard(initialPosition, initialDirection);
         }
     }
 }
