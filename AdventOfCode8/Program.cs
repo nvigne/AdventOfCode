@@ -1,5 +1,4 @@
-﻿
-StreamReader reader = new("input.txt");
+﻿StreamReader reader = new("input.txt");
 
 char[,] table = new char[130, 130];
 string? line;
