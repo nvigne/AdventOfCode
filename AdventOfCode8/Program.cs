@@ -12,7 +12,7 @@ while ((line = reader.ReadLine()) is not null)
     int x = 0;
     foreach (var item in line)
     {
-        if (item != '.')
+        if (item != '.' && item != '#')
         {
             table[lineCount, x] = item;
 
@@ -49,49 +49,47 @@ foreach (var item in antennaPositions)
             Console.WriteLine($"Antenna 1: {firstAntenna}");
             Console.WriteLine($"Antenna 2: {secondAntenna}");
 
-            var dist_y = Math.Abs(item.Value[i].Y - item.Value[j].Y); 
-            var dist_x = Math.Abs(item.Value[i].X - item.Value[j].X);
+            antinode.Add(firstAntenna);
 
-            Position antinode1 = new(0, 0);
-            Position antinode2 = new(0, 0);
-            if (secondAntenna.Y >= firstAntenna.Y && secondAntenna.X >= firstAntenna.X)
+            var dist_y = item.Value[i].Y - item.Value[j].Y; 
+            var dist_x = item.Value[i].X - item.Value[j].X;
+
+            int multiplier = 1;
+            while (true)
             {
-                antinode1 = new Position(secondAntenna.X + dist_x, secondAntenna.Y + dist_y);
-                antinode2 = new Position(firstAntenna.X - dist_x, firstAntenna.Y - dist_y);
-            }
-            else if (secondAntenna.Y >= firstAntenna.Y && secondAntenna.X < firstAntenna.X)
-            {
-                antinode1 = new Position(secondAntenna.X - dist_x, secondAntenna.Y + dist_y);
-                antinode2 = new Position(firstAntenna.X + dist_x, firstAntenna.Y - dist_y);
-            }
-            else if (secondAntenna.Y < firstAntenna.Y && secondAntenna.X >= firstAntenna.X)
-            {
-                antinode1 = new Position(secondAntenna.X + dist_x, secondAntenna.Y - dist_y);
-                antinode2 = new Position(firstAntenna.X - dist_x, firstAntenna.Y + dist_y);
-            }
-            else
-            {
-                antinode1 = new Position(secondAntenna.X - dist_x, secondAntenna.Y - dist_y);
-                antinode2 = new Position(firstAntenna.X + dist_x, firstAntenna.Y + dist_y);
+                // We take the first antenna as our reference point,
+                // and we calculate the antinode position based on the distance between the two antennas.
+                Position newAntinode = new(firstAntenna.X + multiplier*dist_x, firstAntenna.Y + multiplier*dist_y);
+
+                if (newAntinode.Y >= 0 && newAntinode.Y < lineCount && newAntinode.X >= 0 && newAntinode.X < columnCount)
+                {
+                    Console.WriteLine($"Antinode: {newAntinode}");
+                    antinode.Add(newAntinode);
+                    multiplier++;
+                }
+                else
+                {
+                    break;
+                }
             }
 
-            Console.WriteLine($"Antinode 1: {antinode1}");
-            Console.WriteLine($"Antinode 2: {antinode2}");
-
-            // For each pair of antennas, the position of the two antinodes is the point that is at both at the same distance of one antenna and twice the distance of the other.
-            // So basically it is on the same line as the two antenna, but outside of between the two antennas.
-
-            // Now let's see if the antenna is located intside the map.
-            if (antinode1.Y >= 0 && antinode1.Y < lineCount && antinode1.X >= 0 && antinode1.X < columnCount)
+            multiplier = 1;
+            while (true)
             {
-                antinode.Add(antinode1);
-                Console.WriteLine("Antinode 1 is inside the map.");
-            }
+                // We take the first antenna as our reference point,
+                // and we calculate the antinode position based on the distance between the two antennas.
+                Position newAntinode = new(firstAntenna.X - multiplier*dist_x, firstAntenna.Y - multiplier*dist_y);
 
-            if (antinode2.Y >= 0 && antinode2.Y < lineCount && antinode2.X >= 0 && antinode2.X < columnCount)
-            {
-                antinode.Add(antinode2);
-                Console.WriteLine("Antinode 2 is inside the map.");
+                if (newAntinode.Y >= 0 && newAntinode.Y < lineCount && newAntinode.X >= 0 && newAntinode.X < columnCount)
+                {
+                    Console.WriteLine($"Antinode: {newAntinode}");
+                    antinode.Add(newAntinode);
+                    multiplier++;
+                }
+                else
+                {
+                    break;
+                }
             }
         }
     }
