@@ -58,10 +58,10 @@ bool IsValidPath(int[,] map, Position position, int previousValue, HashSet<Posit
 
     if (map[position.Y, position.X] == 9)
     {
-        if (!visited.Contains(position))
-        {
+        //if (!visited.Contains(position))
+        //{
             totalPaths++;
-        }
+        //}
 
         visited.Add(position);
         return true;
