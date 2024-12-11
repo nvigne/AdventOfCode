@@ -37,24 +37,37 @@ Console.WriteLine(expectedSize);
 
 int valueIndex = numbers.Length - 1;
 // Let's go through the numbers from the end to the start.
-for (int i = 0; i < numbers.Length; i++)
+while (valueIndex > 0)
 {
-    if (numbers[i] == -1)
+    //Console.WriteLine(string.Join(",", numbers).Replace("-1", ""));
+
+    var (nextNumberIndex, size) = GetNextIndexToSwap(numbers, valueIndex);
+    var availableIndex = GetNextAvailableSpace(numbers, size);
+
+    // If we can't place the numbers, let's skip them.
+    if (availableIndex == -1)
     {
-        valueIndex = GetNextIndexToSwap(numbers, valueIndex);
-        if (i >= valueIndex)
-        {
-            break;
-        }
-
-        var number = numbers[valueIndex];
-
-        numbers[i] = number;
-        numbers[valueIndex] = -1;
-
-        //Console.WriteLine(string.Join("", numbers).Replace("-1", "."));
+        valueIndex = nextNumberIndex - 1;
+        continue;
     }
+
+    // If the only place available for the numbers is after them, let's skip them.
+    if (availableIndex > nextNumberIndex)
+    {
+        valueIndex = nextNumberIndex - 1;
+        continue;
+    }
+
+    for (int i = 0; i < size; i++)
+    {
+        numbers[availableIndex + i] = numbers[nextNumberIndex + i];
+        numbers[nextNumberIndex + i] = -1;
+    }
+
+
+    valueIndex = nextNumberIndex-1;
 }
+
 
 //Console.WriteLine(string.Join(",", numbers).Replace("-1", ""));
 
@@ -69,26 +82,68 @@ for (int i = 0; i < numbers.Length; i++)
     {
         checksum = checked(checksum + numbers[i] * i);
     }
-    else
-    {
-        break;
-    }
 }
 
 Console.WriteLine(checksum);
 
-static int GetNextIndexToSwap(int[] numbers, int max)
+static (int index, int size) GetNextIndexToSwap(int[] numbers, int max)
 {
     // Start from the end of the array.
     // Get first number that is not -1.
+    int firstNumber = -1;
+    int size = 0;
     for (int i = max; i >= 0; i--)
     {
-        if (numbers[i] != -1)
+        if (numbers[i] == -1 && firstNumber == -1)
         {
-            return i;
+            continue;
+        }
+        else if (firstNumber == -1)
+        {
+            firstNumber = numbers[i];
+            size++;
+        }
+        else if (firstNumber != numbers[i])
+        {
+            return (i+1, size);
+        }
+        else
+        {
+            size++;
+        }
+    }
+
+    return (-1, -1);
+}
+
+static int GetNextAvailableSpace(int[] numbers, int size)
+{
+    for (int i = 0; i < numbers.Length; i++)
+    {
+        if (numbers[i] == -1)
+        {
+            bool isAvailable = true;
+            for (int j = i; j < i + size; j++)
+            {
+                if (j >= numbers.Length)
+                {
+                    isAvailable = false;
+                    break;
+                }
+
+                if (numbers[j] != -1)
+                {
+                    isAvailable = false;
+                    break;
+                }
+            }
+
+            if (isAvailable)
+            {
+                return i;
+            }
         }
     }
 
     return -1;
 }
-
