@@ -1,52 +1,82 @@
-﻿LinkedList<long> stones = new();
+﻿using System.Collections.Generic;
+
+Dictionary<long, long> stones = new();
 // Example.
-//stones.AddLast(125);
-//stones.AddLast(17);
+//stones.Add(125, 1);
+//stones.Add(17, 1);
 
 // Real input.
-stones.AddLast(5910927);
-stones.AddLast(0);
-stones.AddLast(1);
-stones.AddLast(47);
-stones.AddLast(261223);
-stones.AddLast(94788);
-stones.AddLast(545);
-stones.AddLast(7771);
+stones.Add(5910927, 1);
+stones.Add(0, 1);
+stones.Add(1, 1);
+stones.Add(47, 1);
+stones.Add(261223, 1);
+stones.Add(94788, 1);
+stones.Add(545, 1);
+stones.Add(7771, 1);
 
-Console.WriteLine(string.Join("->", stones));
-
-for (int i = 0; i < 25; i++)
+for (int i = 0; i < 75; i++)
 {
-    LinkedListNode<long>? node = stones.First;
-    while (node != null)
+    Dictionary<long, long> newStones = new();
+    foreach (var stone in stones.ToList())
     {
-        if (node.Value == 0)
+        if (stone.Key == 0)
         {
-            node.Value = 1;
-            node = node.Next;
+            if (newStones.ContainsKey(1))
+            {
+                newStones[1] += stone.Value;
+            }
+            else
+            {
+                newStones.Add(1, stone.Value);
+            }
         }
-        else if (HasEvenNumberOfDigits(node.Value))
+        else if (HasEvenNumberOfDigits(stone.Key))
         {
-            var (first, second) = GetTwoPartsOfNumber(node.Value);
+            var (first, second) = GetTwoPartsOfNumber(stone.Key);
+            if (newStones.ContainsKey(first))
+            {
+                newStones[first] += stone.Value;
+            }
+            else
+            {
+                newStones.Add(first, stone.Value);
+            }
 
-            var newFirstNode = stones.AddBefore(node, first);
-            var newSecondNode = stones.AddBefore(node, second);
-
-            stones.Remove(node);
-            node = newSecondNode.Next;
+            if (newStones.ContainsKey(second))
+            {
+                newStones[second] += stone.Value;
+            }
+            else
+            {
+                newStones.Add(second, stone.Value);
+            }
         }
         else
         {
-            node.Value = node.Value * 2024;
-            node = node.Next;
+            if (newStones.ContainsKey(stone.Key * 2024))
+            {
+                newStones[stone.Key * 2024] += stone.Value;
+            }
+            else
+            {
+                newStones.Add(stone.Key * 2024, stone.Value);
+            }
         }
-
     }
 
-    //Console.WriteLine(string.Join("->", stones));
+    stones = newStones;
+
+    //Console.WriteLine(stones.Count);
 }
 
-Console.WriteLine(stones.Count);
+long total = 0;
+foreach (var stone in stones)
+{
+    total += stone.Value;
+}
+
+Console.WriteLine(total);
 
 static bool HasEvenNumberOfDigits(long number)
 {
