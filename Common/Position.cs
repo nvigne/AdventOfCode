@@ -12,4 +12,9 @@
     {
         return (Y << 16) ^ X;
     }
+
+    public bool IsOut(int maxX, int maxY)
+    {
+        return X < 0 || Y < 0 || X >= maxX || Y >= maxY;
+    }
 }
